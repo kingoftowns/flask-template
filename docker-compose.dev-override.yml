@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+
+  api:
+    build:
+      context: ./
+    restart: "no"
+    volumes:
+      - "./out/:/out"
+
+  worker:
+    build:
+      context: ./
+    restart: "no"
+
+  queue:
+    ports:
+      - "6379:6379"

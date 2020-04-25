@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+
+  api:
+    image: flask-app
+    container_name: flask-api
+    ports:
+      - "80:80"
+    env_file:
+      - .env
+
+  worker:
+    image: flask-app
+    container_name: flask-worker
+    command: celery -A src.flask-app.worker.tasks worker --loglevel=info
+    env_file:
+      - .env
+
+  queue:
+    image: redis:4
+    container_name: flask-queue
+    expose:
+      - "6379"
