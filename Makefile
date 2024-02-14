@@ -113,12 +113,12 @@ log-queue: ##
 # REDIS targets
 #
 
-.PHONY: start-queue
-start-queue: ##
+.PHONY: start-cache
+start-cache: ##
 	## Start Redis queue.  Useful for when you want to debug locally, and need the queue running.
 	## NOTE: This will take down the application if it is still running.
 	make down
-	docker-compose -f docker-compose.yml -f docker-compose.dev-override.yml up queue
+	docker-compose -f docker-compose.yml -f docker-compose.dev-override.yml up queue -d
 
 .PHONY: redis-cli
 redis-cli: ##

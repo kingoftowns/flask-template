@@ -9,6 +9,7 @@
             "type": "python",
             "request": "launch",
             "module": "flask",
+            "host": "127.0.0.1",
             "env": {
                 "FLASK_APP": "src/flask-app/api/routes",
                 "FLASK_ENV": "development",
