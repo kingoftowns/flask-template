@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ..:/workspace:cached
+    command: sleep infinity
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - FLASK_APP=src.flask-app.api.routes:FLASK
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+    ports:
+      - "8080:8080"  # Flask on port 8080
+      - "5678:5678"  # For debugpy
+    depends_on:
+      - redis
+    networks:
+      - flask-network
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - flask-network
+    volumes:
+      - redis-data:/data
+
+  celery:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ..:/workspace:cached
+    command: celery -A src.flask-app.worker.tasks worker --loglevel=info --pool=solo
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - redis
+    networks:
+      - flask-network
+
+  flower:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    command: celery -A src.flask-app.worker.tasks flower --port=5555
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    ports:
+      - "5555:5555"
+    depends_on:
+      - redis
+      - celery
+    networks:
+      - flask-network
+
+networks:
+  flask-network:
+    driver: bridge
+
+volumes:
+  redis-data:

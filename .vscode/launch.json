@@ -43,6 +43,83 @@
                 "solo",
                 "--loglevel=info"
             ]
+        },
+        {
+            "name": "DevContainer: Flask API",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "env": {
+                "FLASK_APP": "src.flask-app.api.routes:FLASK",
+                "FLASK_ENV": "development",
+                "FLASK_DEBUG": "1",
+                "REDIS_URL": "redis://redis:6379/0",
+                "CELERY_BROKER_URL": "redis://redis:6379/0",
+                "CELERY_RESULT_BACKEND": "redis://redis:6379/0"
+            },
+            "args": [
+                "run",
+                "--host=0.0.0.0",
+                "--port=8080",
+                "--reload"
+            ],
+            "jinja": true,
+            "justMyCode": false,
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "DevContainer: Flask API (with debugpy)",
+            "type": "python",
+            "request": "launch",
+            "module": "debugpy",
+            "args": [
+                "--listen",
+                "0.0.0.0:5678",
+                "-m",
+                "flask",
+                "run",
+                "--host=0.0.0.0",
+                "--port=8080",
+                "--reload"
+            ],
+            "env": {
+                "FLASK_APP": "src.flask-app.api.routes:FLASK",
+                "FLASK_ENV": "development",
+                "FLASK_DEBUG": "1",
+                "REDIS_URL": "redis://redis:6379/0",
+                "CELERY_BROKER_URL": "redis://redis:6379/0",
+                "CELERY_RESULT_BACKEND": "redis://redis:6379/0"
+            },
+            "jinja": true,
+            "justMyCode": false,
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "DevContainer: Celery Worker",
+            "type": "python",
+            "request": "launch",
+            "module": "celery",
+            "args": [
+                "-A",
+                "src.flask-app.worker.tasks",
+                "worker",
+                "--loglevel=info",
+                "--pool=solo"
+            ],
+            "env": {
+                "REDIS_URL": "redis://redis:6379/0",
+                "CELERY_BROKER_URL": "redis://redis:6379/0",
+                "CELERY_RESULT_BACKEND": "redis://redis:6379/0"
+            },
+            "console": "integratedTerminal"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "DevContainer: Full Stack (Flask + Celery)",
+            "configurations": ["DevContainer: Flask API", "DevContainer: Celery Worker"],
+            "stopAll": true,
+            "preLaunchTask": "ensure-services"
         }
     ]
 }
