@@ -1,6 +1,6 @@
 # Flask / Celery / Redis template
 
-This document outlines how to use the `flask-app` codebase.
+This document outlines how to use the `__APP_NAME__` codebase.
 
 ## The Basics
 
@@ -28,7 +28,7 @@ python3 -m venv .venv
 source ./.venv/bin/activate
 
 # Generate dependencies file
-pip-compile --no-index --output-file=requirements.txt src/flask-app/requirements.in
+pip-compile --no-index --output-file=requirements.txt src/__APP_NAME__/requirements.in
 
 # Install dependencies
 pip install -r requirements.txt
@@ -131,9 +131,9 @@ If you go to the "Run" panel (can hit `Ctrl`+`Shift`+`D`) of your VS Code instan
 You will see output that looks similar to this...
 
 ```
-(.venv) user@dev-machine ~/flask-template (branch) $  env CELERY_BROKER_URL=redis://queue:6379/0 FLASK_APP=src/flask-app/run FLASK_ENV=development FLASK_DEBUG=0 PYTHONIOENCODING=UTF-8 PYTHONUNBUFFERED=1 /home/user/flask-template/.venv/bin/python /home/user/.vscode-server/extensions/ms-python.python-2020.3.71659/pythonFiles/ptvsd_launcher.py --default --client --host localhost --port 42600 -m flask run --no-debugger --no-reload --host=0.0.0.0 --port=8080 
+(.venv) user@dev-machine ~/__APP_NAME__ (branch) $  env CELERY_BROKER_URL=redis://queue:6379/0 FLASK_APP=src/__APP_NAME__/run FLASK_ENV=development FLASK_DEBUG=0 PYTHONIOENCODING=UTF-8 PYTHONUNBUFFERED=1 /home/user/__APP_NAME__/.venv/bin/python /home/user/.vscode-server/extensions/ms-python.python-2020.3.71659/pythonFiles/ptvsd_launcher.py --default --client --host localhost --port 42600 -m flask run --no-debugger --no-reload --host=0.0.0.0 --port=8080 
  * Tip: There are .env or .flaskenv files present. Do "pip install python-dotenv" to use them.
- * Serving Flask app "src/flask-app/run"
+ * Serving Flask app "src/__APP_NAME__/run"
  * Environment: development
  * Debug mode: off
  * Running on http://0.0.0.0:8080/ (Press CTRL+C to quit)
@@ -148,7 +148,7 @@ Additionally in the "Run" panel drop-down, you should see another option called 
 You will see output that looks similar to this...
 
 ```
-(.venv) user@dev-machine ~/flask-template/src (branch) $  env CELERY_BROKER_URL=redis://localhost:6379/0 PYTHONIOENCODING=UTF-8 PYTHONUNBUFFERED=1 /home/user/flask-template/.venv/bin/python /home/user/.vscode-server/extensions/ms-python.python-2020.3.71659/pythonFiles/ptvsd_launcher.py --default --client --host localhost --port 45545 -m celery -A flask-app.worker.tasks worker -P solo --loglevel=info 
+(.venv) user@dev-machine ~/__APP_NAME__/src (branch) $  env CELERY_BROKER_URL=redis://localhost:6379/0 PYTHONIOENCODING=UTF-8 PYTHONUNBUFFERED=1 /home/user/__APP_NAME__/.venv/bin/python /home/user/.vscode-server/extensions/ms-python.python-2020.3.71659/pythonFiles/ptvsd_launcher.py --default --client --host localhost --port 45545 -m celery -A __APP_NAME__.worker.tasks worker -P solo --loglevel=info 
  
  -------------- celery@dev-machine v4.4.2 (cliffs)
 --- ***** ----- 
@@ -166,7 +166,7 @@ You will see output that looks similar to this...
                 
 
 [tasks]
-  . flask-app.worker.tasks.reverse
+  . __APP_NAME__.worker.tasks.reverse
 
 [2020-04-16 12:20:54,444: INFO/MainProcess] Connected to redis://localhost:6379/0
 [2020-04-16 12:20:54,452: INFO/MainProcess] mingle: searching for neighbors

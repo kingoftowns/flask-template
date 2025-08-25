@@ -19,4 +19,4 @@ WORKDIR /app
 ADD . /app
 
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
-CMD ["gunicorn", "--bind", "0.0.0.0:80", "src.flask-app.api.routes:FLASK"]
+CMD ["gunicorn", "--bind", "0.0.0.0:80", "src.__APP_NAME__.api.routes:FLASK"]

@@ -11,7 +11,7 @@
             "module": "flask",
             "host": "127.0.0.1",
             "env": {
-                "FLASK_APP": "src/flask-app/api/routes",
+                "FLASK_APP": "src/__APP_NAME__/api/routes",
                 "FLASK_ENV": "development",
                 "FLASK_DEBUG": "0",
                 "CELERY_BROKER_URL": "redis://localhost:6379/0"
@@ -37,7 +37,7 @@
             "cwd": "${workspaceFolder}/src",
             "args": [
                 "-A",
-                "flask-app.worker.tasks",
+                "__APP_NAME__.worker.tasks",
                 "worker",
                 "-P",
                 "solo",
@@ -50,7 +50,7 @@
             "request": "launch",
             "module": "flask",
             "env": {
-                "FLASK_APP": "src.flask-app.api.routes:FLASK",
+                "FLASK_APP": "src.__APP_NAME__.api.routes:FLASK",
                 "FLASK_ENV": "development",
                 "FLASK_DEBUG": "1",
                 "REDIS_URL": "redis://redis:6379/0",
@@ -83,7 +83,7 @@
                 "--reload"
             ],
             "env": {
-                "FLASK_APP": "src.flask-app.api.routes:FLASK",
+                "FLASK_APP": "src.__APP_NAME__.api.routes:FLASK",
                 "FLASK_ENV": "development",
                 "FLASK_DEBUG": "1",
                 "REDIS_URL": "redis://redis:6379/0",
@@ -101,7 +101,7 @@
             "module": "celery",
             "args": [
                 "-A",
-                "src.flask-app.worker.tasks",
+                "src.__APP_NAME__.worker.tasks",
                 "worker",
                 "--loglevel=info",
                 "--pool=solo"

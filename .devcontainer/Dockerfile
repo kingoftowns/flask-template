@@ -17,7 +17,7 @@ RUN useradd -ms /bin/bash vscode && \
 WORKDIR /workspace
 
 # Copy requirements file
-COPY src/flask-app/requirements.in /tmp/requirements.in
+COPY src/__APP_NAME__/requirements.in /tmp/requirements.in
 
 # Install Python dependencies
 RUN pip install --upgrade pip && \

@@ -12,7 +12,7 @@ services:
       - REDIS_URL=redis://redis:6379/0
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
-      - FLASK_APP=src.flask-app.api.routes:FLASK
+      - FLASK_APP=src.__APP_NAME__.api.routes:FLASK
       - FLASK_ENV=development
       - FLASK_DEBUG=1
     ports:
@@ -38,7 +38,7 @@ services:
       dockerfile: .devcontainer/Dockerfile
     volumes:
       - ..:/workspace:cached
-    command: celery -A src.flask-app.worker.tasks worker --loglevel=info --pool=solo
+    command: celery -A src.__APP_NAME__.worker.tasks worker --loglevel=info --pool=solo
     environment:
       - REDIS_URL=redis://redis:6379/0
       - CELERY_BROKER_URL=redis://redis:6379/0
@@ -52,7 +52,7 @@ services:
     build:
       context: ..
       dockerfile: .devcontainer/Dockerfile
-    command: celery -A src.flask-app.worker.tasks flower --port=5555
+    command: celery -A src.__APP_NAME__.worker.tasks flower --port=5555
     environment:
       - REDIS_URL=redis://redis:6379/0
       - CELERY_BROKER_URL=redis://redis:6379/0
